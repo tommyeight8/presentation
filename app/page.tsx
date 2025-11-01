@@ -71,7 +71,7 @@ const WMSCostBreakdown = () => {
   const costBreakdown = [
     { name: "Supabase", value: costs.supabase, color: "#3ECF8E" },
     { name: "GCP", value: costs.gcp, color: "#EA4335" },
-    { name: "Vercel", value: costs.vercel, color: "#0070F3" },
+    { name: "Vercel", value: costs.vercel, color: "#0070F3" }, // Changed from #000000 to Vercel's brand blue
   ];
 
   // Feature usage breakdown
@@ -170,7 +170,7 @@ const WMSCostBreakdown = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
       {/* Header */}
-      <div className="bg-linear-to-r from-blue-600 to-blue-800 text-white shadow-lg">
+      <div className="bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="flex items-center justify-between">
             <div>
@@ -341,9 +341,9 @@ const WMSCostBreakdown = () => {
                 </div>
 
                 {/* Vercel */}
-                <div className="border-2 border-blue-400 rounded-lg p-6 bg-slate-50">
+                <div className="border-2 border-black rounded-lg p-6 bg-slate-50">
                   <div className="flex items-center mb-4">
-                    <div className="w-12 h-12 bg-blue-400 rounded-lg flex items-center justify-center text-white font-bold text-xl">
+                    <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center text-white font-bold text-xl">
                       V
                     </div>
                     <div className="ml-3">
@@ -408,8 +408,8 @@ const WMSCostBreakdown = () => {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={(props) =>
-                        `${props.name}: $${(props.value as number).toFixed(2)}`
+                      label={(props: any) =>
+                        `${props.name}: $${props.value.toFixed(2)}`
                       }
                       outerRadius={100}
                       fill="#8884d8"
@@ -1526,7 +1526,7 @@ const WMSCostBreakdown = () => {
                           For developers who deploy code
                         </p>
                       </div>
-                      <div className="text-3xl font-bold text-gray-800">
+                      <div className="text-3xl font-bold text-black">
                         $20<span className="text-lg text-slate-500">/seat</span>
                       </div>
                     </div>
@@ -1920,7 +1920,7 @@ const WMSCostBreakdown = () => {
                     <Bar
                       dataKey="vercel"
                       stackId="a"
-                      fill="#0070F3"
+                      fill="#000000"
                       name="Vercel"
                     />
                   </BarChart>
@@ -1933,7 +1933,7 @@ const WMSCostBreakdown = () => {
         {/* Optimization Tab */}
         {activeTab === "optimization" && (
           <div className="space-y-6">
-            <div className="bg-linear-to-r from-green-500 to-green-600 text-white rounded-xl shadow-lg p-8 mb-6">
+            <div className="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl shadow-lg p-8 mb-6">
               <h3 className="text-3xl font-bold mb-2">
                 💰 Cost Optimization Strategies
               </h3>
@@ -2402,26 +2402,26 @@ const WMSCostBreakdown = () => {
             </div>
 
             {/* ROI Calculator */}
-            <div className="bg-linear-to-r from-purple-500 to-purple-600 text-white rounded-xl shadow-lg p-8">
+            <div className="bg-gradient-to-r from-purple-500 to-purple-600 text-white rounded-xl shadow-lg p-8">
               <h4 className="text-2xl font-bold mb-4">
                 💰 ROI Quick Calculator
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="text-sm mb-2">If you optimize by 30%:</div>
                   <div className="text-3xl font-bold">
                     ${(costs.total * 0.3 * 12).toFixed(0)}
                   </div>
                   <div className="text-sm mt-1">saved per year</div>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="text-sm mb-2">Cost per order (current):</div>
                   <div className="text-3xl font-bold">
                     ${(costs.total / orderVolume).toFixed(3)}
                   </div>
                   <div className="text-sm mt-1">per order processed</div>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="text-sm mb-2">
                     Cost per order (optimized):
                   </div>
@@ -2439,7 +2439,7 @@ const WMSCostBreakdown = () => {
         {activeTab === "your-setup" && (
           <div className="space-y-6">
             {/* Hero Section */}
-            <div className="bg-linear-to-r from-purple-600 to-purple-800 text-white rounded-xl shadow-lg p-8">
+            <div className="bg-gradient-to-r from-purple-600 to-purple-800 text-white rounded-xl shadow-lg p-8">
               <h3 className="text-3xl font-bold mb-2">
                 Your Specific WMS Setup
               </h3>
@@ -2448,21 +2448,21 @@ const WMSCostBreakdown = () => {
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="text-sm mb-1">Warehouse Workers</div>
                   <div className="text-3xl font-bold">10</div>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="text-sm mb-1">Storage Need</div>
                   <div className="text-3xl font-bold">20GB</div>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="text-sm mb-1">Monthly Orders</div>
                   <div className="text-3xl font-bold">300-500</div>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="text-sm mb-1">Dev Team</div>
-                  <div className="text-3xl font-bold">2-3</div>
+                  <div className="text-3xl font-bold">1</div>
                 </div>
               </div>
             </div>
@@ -2471,7 +2471,7 @@ const WMSCostBreakdown = () => {
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-purple-500">
                 <div className="text-sm text-slate-600 mb-1">Monthly Cost</div>
-                <div className="text-5xl font-bold text-purple-600">$66.81</div>
+                <div className="text-5xl font-bold text-purple-600">$46.79</div>
                 <div className="text-xs text-slate-500 mt-2">
                   All services included
                 </div>
@@ -2479,7 +2479,7 @@ const WMSCostBreakdown = () => {
 
               <div className="bg-white rounded-xl shadow-lg p-6 border-t-4 border-blue-500">
                 <div className="text-sm text-slate-600 mb-1">Annual Cost</div>
-                <div className="text-5xl font-bold text-blue-600">$802</div>
+                <div className="text-5xl font-bold text-blue-600">$561</div>
                 <div className="text-xs text-slate-500 mt-2">
                   Projected yearly spend
                 </div>
@@ -2489,9 +2489,9 @@ const WMSCostBreakdown = () => {
                 <div className="text-sm text-slate-600 mb-1">
                   Cost Per Order
                 </div>
-                <div className="text-5xl font-bold text-green-600">$0.167</div>
+                <div className="text-5xl font-bold text-green-600">$0.117</div>
                 <div className="text-xs text-slate-500 mt-2">
-                  16.7 cents per order
+                  11.7 cents per order
                 </div>
               </div>
             </div>
@@ -2515,7 +2515,7 @@ const WMSCostBreakdown = () => {
                           Supabase
                         </h5>
                         <p className="text-sm text-slate-600">
-                          Backend & Database (40% of total)
+                          Backend & Database (57% of total)
                         </p>
                       </div>
                     </div>
@@ -2628,10 +2628,10 @@ const WMSCostBreakdown = () => {
                 </div>
 
                 {/* Vercel */}
-                <div className="border-2 border-blue-400 rounded-lg p-6 bg-slate-50">
+                <div className="border-2 border-black rounded-lg p-6 bg-slate-50">
                   <div className="flex justify-between items-center mb-4">
                     <div className="flex items-center">
-                      <div className="w-12 h-12 bg-blue-400 rounded-lg flex items-center justify-center text-white font-bold text-xl mr-3">
+                      <div className="w-12 h-12 bg-black rounded-lg flex items-center justify-center text-white font-bold text-xl mr-3">
                         V
                       </div>
                       <div>
@@ -2639,12 +2639,12 @@ const WMSCostBreakdown = () => {
                           Vercel
                         </h5>
                         <p className="text-sm text-slate-600">
-                          Frontend Hosting (60% of total)
+                          Frontend Hosting (44% of total)
                         </p>
                       </div>
                     </div>
                     <div className="text-4xl font-bold text-slate-800">
-                      $40.02
+                      $20.00
                     </div>
                   </div>
 
@@ -2655,22 +2655,22 @@ const WMSCostBreakdown = () => {
                       </div>
                       <div className="space-y-2 text-sm text-slate-600">
                         <div className="flex justify-between">
-                          <span>Pro Seats (3 devs):</span>
-                          <span className="font-semibold">$60.00</span>
+                          <span>Pro Seat (1 dev):</span>
+                          <span className="font-semibold">$20.00</span>
                         </div>
                         <div className="flex justify-between">
                           <span>Included Credits:</span>
                           <span className="font-semibold text-green-600">
-                            -$20.00
+                            Covers all usage
                           </span>
                         </div>
                         <div className="flex justify-between">
                           <span>Extra Bandwidth:</span>
-                          <span className="font-semibold">$0.02</span>
+                          <span className="font-semibold">$0.00</span>
                         </div>
                         <div className="flex justify-between border-t pt-2 font-bold text-slate-800">
                           <span>Monthly Total:</span>
-                          <span>$40.02</span>
+                          <span>$20.00</span>
                         </div>
                       </div>
                     </div>
@@ -2684,7 +2684,7 @@ const WMSCostBreakdown = () => {
                           <strong className="text-green-600">FREE</strong>{" "}
                           (viewers)
                         </li>
-                        <li>💻 Only devs need paid seats</li>
+                        <li>💻 Only 1 dev needs a paid seat</li>
                         <li>🚀 Admin dashboard hosting</li>
                         <li>📱 Mobile picking app</li>
                         <li>🌍 Global edge network</li>
@@ -2722,52 +2722,52 @@ const WMSCostBreakdown = () => {
                       <td className="py-3 px-4">300</td>
                       <td className="py-3 px-4 text-right">$26.40</td>
                       <td className="py-3 px-4 text-right">$0.20</td>
-                      <td className="py-3 px-4 text-right">$40.01</td>
-                      <td className="py-3 px-4 text-right font-bold">$66.61</td>
+                      <td className="py-3 px-4 text-right">$20.00</td>
+                      <td className="py-3 px-4 text-right font-bold">$46.60</td>
                       <td className="py-3 px-4 text-right text-slate-600">
-                        $799
+                        $559
                       </td>
                     </tr>
                     <tr className="border-b bg-purple-50">
                       <td className="py-3 px-4 font-bold">400 (Current)</td>
                       <td className="py-3 px-4 text-right font-bold">$26.52</td>
                       <td className="py-3 px-4 text-right font-bold">$0.27</td>
-                      <td className="py-3 px-4 text-right font-bold">$40.02</td>
+                      <td className="py-3 px-4 text-right font-bold">$20.00</td>
                       <td className="py-3 px-4 text-right font-bold text-purple-600">
-                        $66.81
+                        $46.79
                       </td>
                       <td className="py-3 px-4 text-right font-bold text-purple-600">
-                        $802
+                        $561
                       </td>
                     </tr>
                     <tr className="border-b">
                       <td className="py-3 px-4">500</td>
                       <td className="py-3 px-4 text-right">$26.64</td>
                       <td className="py-3 px-4 text-right">$0.34</td>
-                      <td className="py-3 px-4 text-right">$40.02</td>
-                      <td className="py-3 px-4 text-right font-bold">$67.00</td>
+                      <td className="py-3 px-4 text-right">$20.00</td>
+                      <td className="py-3 px-4 text-right font-bold">$46.98</td>
                       <td className="py-3 px-4 text-right text-slate-600">
-                        $804
+                        $564
                       </td>
                     </tr>
                     <tr className="border-b">
                       <td className="py-3 px-4">750</td>
                       <td className="py-3 px-4 text-right">$27.00</td>
                       <td className="py-3 px-4 text-right">$0.51</td>
-                      <td className="py-3 px-4 text-right">$40.04</td>
-                      <td className="py-3 px-4 text-right font-bold">$67.55</td>
+                      <td className="py-3 px-4 text-right">$20.00</td>
+                      <td className="py-3 px-4 text-right font-bold">$47.51</td>
                       <td className="py-3 px-4 text-right text-slate-600">
-                        $811
+                        $570
                       </td>
                     </tr>
                     <tr className="border-b">
                       <td className="py-3 px-4">1,000</td>
                       <td className="py-3 px-4 text-right">$27.36</td>
                       <td className="py-3 px-4 text-right">$0.68</td>
-                      <td className="py-3 px-4 text-right">$40.06</td>
-                      <td className="py-3 px-4 text-right font-bold">$68.10</td>
+                      <td className="py-3 px-4 text-right">$20.00</td>
+                      <td className="py-3 px-4 text-right font-bold">$48.04</td>
                       <td className="py-3 px-4 text-right text-slate-600">
-                        $817
+                        $576
                       </td>
                     </tr>
                   </tbody>
@@ -2784,7 +2784,7 @@ const WMSCostBreakdown = () => {
             </div>
 
             {/* Compared to Alternatives */}
-            {/* <div className="bg-white rounded-xl shadow-lg p-6">
+            <div className="bg-white rounded-xl shadow-lg p-6">
               <h4 className="text-2xl font-bold text-slate-800 mb-6">
                 Cost Comparison vs Alternatives
               </h4>
@@ -2801,7 +2801,7 @@ const WMSCostBreakdown = () => {
                   </div>
                   <div className="text-center">
                     <div className="text-5xl font-bold text-purple-600">
-                      $66.81
+                      $46.79
                     </div>
                     <div className="text-sm text-slate-600 mt-2">per month</div>
                   </div>
@@ -2860,21 +2860,21 @@ const WMSCostBreakdown = () => {
                     50-90% Cheaper
                   </div>
                   <p className="text-sm text-slate-600">
-                    You're saving <strong>$93-173 per month</strong> compared to
-                    alternatives, while maintaining full control and
+                    You're saving <strong>$113-193 per month</strong> compared
+                    to alternatives, while maintaining full control and
                     customization!
                   </p>
                 </div>
               </div>
-            </div> */}
+            </div>
 
             {/* What's Included */}
-            <div className="bg-linear-to-r from-blue-500 to-blue-600 text-white rounded-xl shadow-lg p-8">
+            <div className="bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl shadow-lg p-8">
               <h4 className="text-2xl font-bold mb-6">
-                What Your $66.81/month Includes
+                What Your $46.79/month Includes
               </h4>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="font-bold mb-2">✅ Complete WMS</div>
                   <ul className="text-sm space-y-1">
                     <li>• Order management</li>
@@ -2883,7 +2883,7 @@ const WMSCostBreakdown = () => {
                     <li>• Barcode scanning</li>
                   </ul>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="font-bold mb-2">✅ For 10 Workers</div>
                   <ul className="text-sm space-y-1">
                     <li>• Mobile picking app</li>
@@ -2892,7 +2892,7 @@ const WMSCostBreakdown = () => {
                     <li>• Real-time updates</li>
                   </ul>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="font-bold mb-2">✅ Integrations</div>
                   <ul className="text-sm space-y-1">
                     <li>• Shopify sync</li>
@@ -2901,7 +2901,7 @@ const WMSCostBreakdown = () => {
                     <li>• Inventory Planner</li>
                   </ul>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="font-bold mb-2">✅ Storage & Files</div>
                   <ul className="text-sm space-y-1">
                     <li>• 20GB database</li>
@@ -2910,7 +2910,7 @@ const WMSCostBreakdown = () => {
                     <li>• Audit trail photos</li>
                   </ul>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="font-bold mb-2">✅ Infrastructure</div>
                   <ul className="text-sm space-y-1">
                     <li>• 99.9% uptime SLA</li>
@@ -2919,7 +2919,7 @@ const WMSCostBreakdown = () => {
                     <li>• SSL/HTTPS</li>
                   </ul>
                 </div>
-                <div className="bg-white bg-opacity-20 rounded-lg p-4 text-gray-600">
+                <div className="bg-white bg-opacity-20 rounded-lg p-4">
                   <div className="font-bold mb-2">✅ Support</div>
                   <ul className="text-sm space-y-1">
                     <li>• Email support</li>
@@ -3002,18 +3002,18 @@ const WMSCostBreakdown = () => {
             </div>
 
             {/* Bottom Line */}
-            <div className="bg-linear-to-r from-green-500 to-green-600 text-white rounded-xl shadow-lg p-8 text-center">
+            <div className="bg-gradient-to-r from-green-500 to-green-600 text-white rounded-xl shadow-lg p-8 text-center">
               <div className="text-3xl font-bold mb-4">✨ Bottom Line</div>
               <div className="text-xl mb-6">
-                Your WMS costs less than a Netflix + Spotify subscription
+                Your WMS costs less than one dinner out per month!
               </div>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-3xl mx-auto">
                 <div>
-                  <div className="text-4xl font-bold">$66.81</div>
+                  <div className="text-4xl font-bold">$46.79</div>
                   <div className="text-sm">per month</div>
                 </div>
                 <div>
-                  <div className="text-4xl font-bold">$0.167</div>
+                  <div className="text-4xl font-bold">$0.117</div>
                   <div className="text-sm">per order</div>
                 </div>
                 <div>
@@ -3022,8 +3022,8 @@ const WMSCostBreakdown = () => {
                 </div>
               </div>
               <div className="mt-6 text-lg">
-                You're running a <strong>production-grade WMS</strong> for the
-                price of a dinner out! 🎉
+                You're running a <strong>production-grade WMS</strong> for less
+                than the cost of streaming services! 🎉
               </div>
             </div>
           </div>
