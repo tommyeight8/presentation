@@ -408,8 +408,8 @@ const WMSCostBreakdown = () => {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ name, value }) =>
-                        `${name}: $${value.toFixed(2)}`
+                      label={(props) =>
+                        `${props.name}: $${(props.value as number).toFixed(2)}`
                       }
                       outerRadius={100}
                       fill="#8884d8"
