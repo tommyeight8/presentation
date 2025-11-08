@@ -1,0 +1,211 @@
+// Add these models to your schema.prisma
+
+// ---------------------------------------------------
+// 📦 RETURN MANAGEMENT SYSTEM
+// ---------------------------------------------------
+
+model ReturnOrder {
+  id            String       @id @default(cuid())
+  rmaNumber     String       @unique // RMA-2025-0001
+  orderId       String
+  order         Order        @relation(fields: [orderId], references: [id])
+  
+  // Customer info (for lookup & verification)
+  customerName  String
+  customerEmail String
+  
+  // Return details
+  status        ReturnStatus @default(PENDING)
+  reason        ReturnReason
+  reasonDetails String?      @db.Text
+  
+  // Financial
+  refundMethod  RefundMethod @default(ORIGINAL_PAYMENT)
+  refundAmount  Decimal?     @db.Decimal(10, 2)
+  refundStatus  RefundStatus @default(PENDING)
+  restockingFee Decimal?     @db.Decimal(10, 2)
+  
+  // Tracking
+  returnTrackingNumber String?
+  returnCarrier        String?
+  expectedReturnDate   DateTime?
+  actualReturnDate     DateTime?
+  
+  // Warehouse processing
+  receivedById      String?
+  receivedBy        User?      @relation("ReturnReceiver", fields: [receivedById], references: [id])
+  receivedAt        DateTime?
+  inspectedById     String?
+  inspectedBy       User?      @relation("ReturnInspector", fields: [inspectedById], references: [id])
+  inspectedAt       DateTime?
+  
+  // Items
+  items             ReturnItem[]
+  
+  // Photos/Documentation
+  images            ReturnImage[]
+  
+  // Notes & Communication
+  internalNotes     String?    @db.Text
+  customerNotes     String?    @db.Text
+  
+  // Timestamps
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+  completedAt       DateTime?
+  
+  @@index([orderId])
+  @@index([customerEmail])
+  @@index([status])
+  @@index([createdAt])
+}
+
+model ReturnItem {
+  id                String              @id @default(cuid())
+  returnOrderId     String
+  returnOrder       ReturnOrder         @relation(fields: [returnOrderId], references: [id], onDelete: Cascade)
+  
+  // Product reference
+  orderItemId       String
+  orderItem         OrderItem           @relation(fields: [orderItemId], references: [id])
+  productId         String
+  product           Product             @relation(fields: [productId], references: [id])
+  variantId         String?
+  variant           Variant?            @relation(fields: [variantId], references: [id])
+  
+  // Quantities
+  quantityRequested Int                 // What customer wants to return
+  quantityReceived  Int?                // What actually arrived
+  quantityRestocked Int         @default(0) // Items put back in inventory
+  quantityDisposed  Int         @default(0) // Items thrown away
+  
+  // Condition Assessment
+  condition         ItemCondition?
+  conditionNotes    String?             @db.Text
+  
+  // Disposition
+  disposition       ReturnDisposition?
+  dispositionReason String?             @db.Text
+  
+  // Restocking details
+  restockedToLocationId String?
+  restockedToLocation   Location?       @relation(fields: [restockedToLocationId], references: [id])
+  restokedAt            DateTime?
+  
+  // Financial
+  refundAmount      Decimal?            @db.Decimal(10, 2)
+  
+  createdAt         DateTime            @default(now())
+  updatedAt         DateTime            @updatedAt
+  
+  @@index([returnOrderId])
+  @@index([productId])
+}
+
+model ReturnImage {
+  id            String      @id @default(cuid())
+  returnOrderId String
+  returnOrder   ReturnOrder @relation(fields: [returnOrderId], references: [id], onDelete: Cascade)
+  
+  url           String
+  caption       String?
+  uploadedById  String
+  uploadedBy    User        @relation(fields: [uploadedById], references: [id])
+  
+  createdAt     DateTime    @default(now())
+  
+  @@index([returnOrderId])
+}
+
+// ---------------------------------------------------
+// 📋 ENUMS FOR RETURNS
+// ---------------------------------------------------
+
+enum ReturnStatus {
+  PENDING           // RMA created, awaiting shipment
+  SHIPPED           // Customer shipped package
+  IN_TRANSIT        // Package in transit
+  RECEIVED          // Arrived at warehouse
+  INSPECTING        // Being inspected
+  INSPECTION_COMPLETE // Inspection done
+  PROCESSING_REFUND // Refund being processed
+  COMPLETED         // Everything done
+  REJECTED          // Return rejected
+  CANCELLED         // Customer cancelled
+}
+
+enum ReturnReason {
+  DEFECTIVE         // Product is defective/broken
+  WRONG_ITEM        // Wrong item shipped
+  NOT_AS_DESCRIBED  // Doesn't match description
+  DAMAGED_SHIPPING  // Damaged during shipping
+  NO_LONGER_NEEDED  // Customer changed mind
+  SIZE_FIT          // Wrong size/doesn't fit
+  QUALITY_ISSUE     // Quality not acceptable
+  DUPLICATE_ORDER   // Ordered by mistake
+  ARRIVED_LATE      // Arrived too late
+  OTHER             // Other reason
+}
+
+enum RefundMethod {
+  ORIGINAL_PAYMENT  // Refund to original payment method
+  STORE_CREDIT      // Issue store credit
+  EXCHANGE          // Exchange for another item
+  NO_REFUND         // No refund (warranty, repair, etc.)
+}
+
+enum RefundStatus {
+  PENDING           // Not yet processed
+  APPROVED          // Approved for refund
+  PROCESSING        // Being processed
+  COMPLETED         // Refund issued
+  REJECTED          // Refund rejected
+  PARTIAL           // Partial refund issued
+}
+
+enum ItemCondition {
+  NEW_UNOPENED      // Brand new, unopened
+  NEW_OPENED        // New but opened package
+  LIKE_NEW          // Used but excellent condition
+  GOOD              // Used, good condition
+  FAIR              // Used, some wear
+  POOR              // Used, significant wear
+  DEFECTIVE         // Not working properly
+  DAMAGED           // Physically damaged
+  EXPIRED           // Past expiration date
+  MISSING_PARTS     // Incomplete
+}
+
+enum ReturnDisposition {
+  RESTOCK           // Put back in inventory
+  DISPOSE           // Throw away
+  REPAIR            // Send for repair
+  RETURN_TO_VENDOR  // Return to supplier
+  QUARANTINE        // Hold for review
+  DONATE            // Donate
+  RECYCLE           // Recycle
+}
+
+// ---------------------------------------------------
+// 🔄 UPDATE EXISTING MODELS
+// ---------------------------------------------------
+
+// Add to Order model:
+// returns  ReturnOrder[]
+
+// Add to OrderItem model:
+// returnItems  ReturnItem[]
+
+// Add to Product model:
+// returnItems  ReturnItem[]
+
+// Add to Variant model:
+// returnItems  ReturnItem[]
+
+// Add to Location model:
+// returnItemsRestocked  ReturnItem[]
+
+// Add to User model:
+// returnsReceived   ReturnOrder[] @relation("ReturnReceiver")
+// returnsInspected  ReturnOrder[] @relation("ReturnInspector")
+// returnImages      ReturnImage[]
